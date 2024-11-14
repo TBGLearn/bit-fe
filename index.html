@@ -8,6 +8,9 @@
 <body>
   <h1>Binance Data Downloader</h1>
   <form id="downloadForm">
+    <label for="symbol">Symbol:</label>
+    <input type="text" id="symbol" name="symbol" value="BTCUSDT">
+    <br>
     <label for="interval">Interval:</label>
     <select id="interval" name="interval">
       <option value="1m">1 minute</option>
@@ -27,15 +30,16 @@
     document.getElementById('downloadForm').addEventListener('submit', async function(event) {
       event.preventDefault();
 
+      const symbol = document.getElementById('symbol').value;
       const interval = document.getElementById('interval').value;
       const limit = document.getElementById('limit').value;
 
-      const response = await fetch('https://cmt.tbg95.co/download/bit', {
+      const response = await fetch('https://your-backend-url/download', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ symbol: 'BTCUSDT', interval, limit })
+        body: JSON.stringify({ symbol, interval, limit })
       });
 
       if (response.ok) {
