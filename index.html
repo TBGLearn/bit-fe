@@ -9,10 +9,10 @@
   <h1>Binance Data Downloader</h1>
   <form id="downloadForm">
     <label for="symbol">Symbol:</label>
-    <input type="text" id="symbol" name="symbol" value="BTCUSDT">
+    <input type="text" id="symbol" name="symbol" value="BTCUSDT" required>
     <br>
     <label for="interval">Interval:</label>
-    <select id="interval" name="interval">
+    <select id="interval" name="interval" required>
       <option value="1m">1 minute</option>
       <option value="3m">3 minutes</option>
       <option value="5m">5 minutes</option>
@@ -21,7 +21,10 @@
     </select>
     <br>
     <label for="limit">Limit:</label>
-    <input type="number" id="limit" name="limit" min="1" max="1400" value="100">
+    <input type="number" id="limit" name="limit" min="1" max="1400" value="100" required>
+    <br>
+    <label for="startTime">Start Time:</label>
+    <input type="datetime-local" id="startTime" name="startTime">
     <br>
     <button type="submit">Download</button>
   </form>
@@ -33,13 +36,17 @@
       const symbol = document.getElementById('symbol').value;
       const interval = document.getElementById('interval').value;
       const limit = document.getElementById('limit').value;
+      const startTime = document.getElementById('startTime').value;
+
+      const payload = { symbol, interval, limit };
+      if (startTime) payload.startTime = startTime;
 
       const response = await fetch('https://cmt.tbg95.co/download/bit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ symbol, interval, limit })
+        body: JSON.stringify(payload)
       });
 
       if (response.ok) {
